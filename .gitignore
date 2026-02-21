@@ -12,7 +12,7 @@ __pycache__/
 .vscode/
 
 # Отчеты о покрытии
- htmlcov/
+# htmlcov/
 .coverage
 .coverage.*
 
