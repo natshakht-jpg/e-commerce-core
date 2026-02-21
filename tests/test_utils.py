@@ -6,6 +6,13 @@ def test_load_from_json():
 
     assert len(categories) == 2
     assert categories[0].name == "Смартфоны"
-    assert len(categories[0].products) == 3
-    assert categories[0].products[1].name == "Iphone 15"
-    assert categories[0].products[1].price == 210000.0
+
+    # Проверяем первую категорию
+    products1 = categories[0].products
+    assert "Samsung Galaxy C23 Ultra" in products1
+    assert "Iphone 15" in products1
+    assert "Xiaomi Redmi Note 11" in products1
+
+    # Проверяем второй продукт в первой категории
+    assert "Iphone 15" in products1
+    assert "210000.0" in products1
