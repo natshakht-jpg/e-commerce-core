@@ -101,3 +101,20 @@ def test_price_setter_decrease_rejected(capsys, monkeypatch):
     # Проверяем, что вывелось сообщение об отмене
     captured = capsys.readouterr()
     assert "Понижение цены отменено" in captured.out
+
+
+def test_product_str():
+    """Тест строкового представления продукта"""
+    product = Product("Футболка", "Хлопок", 800, 10)
+
+    expected = "Футболка, 800 руб. Остаток: 10 шт."
+    assert str(product) == expected
+
+
+def test_product_add():
+    """Тест сложения продуктов (сумма price * quantity)"""
+    p1 = Product("Футболка", "Хлопок", 800, 10)  # 800 * 10 = 8000
+    p2 = Product("Джинсы", "Синие", 2500, 5)  # 2500 * 5 = 12500
+
+    result = p1 + p2
+    assert result == 8000 + 12500 == 20500

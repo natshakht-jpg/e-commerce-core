@@ -56,5 +56,41 @@ class Category:
         # Изначально строка пустая, потому что товаров пока нет.
         for product in self.__products:  # Перебираем все товары в приватном списке __products.
             # Добавляем к результату строку с текущим товаром
-            result += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+            result += str(product) + "\n"
         return result  # Возвращаем готовую строку со всеми товарами.
+
+    def __str__(self):
+        """Возвращает строку с названием категории и общим количеством товаров"""
+        total = 0
+        for product in self.__products:
+            total += product.quantity
+        return f"{self.name}, количество продуктов: {total} шт."
+
+
+class CategoryIterator:
+    """Итератор для перебора товаров категории"""
+
+    def __init__(self, category):
+        # Сохраняем объект категории
+        self.category = category
+        # Индекс текущего товара (начинаем с 0)
+        self._index = 0
+
+    def __iter__(self):
+        # Итератор возвращает сам себя
+        return self
+
+    def __next__(self):
+        # Получаем список товаров из категории (обходим приватность)
+        products = self.category._Category__products
+
+        # Если есть ещё товары
+        if self._index < len(products):
+            # Берём текущий товар
+            product = products[self._index]
+            # Увеличиваем индекс
+            self._index += 1
+            return product
+        else:
+            # Товары закончились
+            raise StopIteration
