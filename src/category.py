@@ -1,19 +1,60 @@
+from src.product import Product
+
+
 # Создаем класс Category
 class Category:
-    # Атрибуты класса (общие для всех)
-    category_count = 0
-    product_count = 0
+    # Атрибуты класса (общие для всех объектов)
+    category_count = 0  # СЧЁТЧИК: сколько всего создано категорий (в __init__)
+    product_count = 0  # СЧЁТЧИК: сколько всего товаров во всех категориях (в add_product)
 
-    # Атрибуты объекта (поля)
-    name: str
-    description: str
-    products: list
+    # Подсказки типов для атрибутов объекта (для документации)
+    name: str  # У каждого объекта будет имя (строка)
+    description: str  # У каждого объекта будет описание (строка)
+    __products: list[Product]  # Приватный атрибут: список товаров (только внутри класса)
 
     def __init__(self, name, description, products=None):
-        self.name = name
-        self.description = description
-        self.products = products if products is not None else []
+        """
+        Конструктор класса Category
+        name - название категории
+        description - описание категории
+        products - список товаров (по умолчанию None)
+        """
+        # 1. Сохраняем публичные данные
+        self.name = name  # записываем название в объект
+        self.description = description  # записываем описание в объект
 
-        # Увеличиваем счетчики
-        Category.category_count += 1
-        Category.product_count += len(self.products)
+        # 2. Создаем приватный список (всегда пустой вначале)
+        self.__products = []  # __products - два подчёркивания = приватный атрибут
+
+        # 3. Если при создании передали список товаров
+        if products is not None:  # Если products не пустой
+            # Проходим по каждому товару в списке
+            for product in products:  # Для каждого товара
+                # Добавляем товар через специальный метод add_product
+                self.add_product(product)  # Вызываем метод добавления
+
+        # 4. Увеличиваем счетчик категорий
+        Category.category_count += 1  # При создании новой категории +1
+
+    def add_product(self, product):
+        """
+        Метод для добавления одного товара в категорию
+        product - объект класса Product
+        """
+        # 1. Добавляем товар в приватный список
+        self.__products.append(product)  # Добавляем в конец списка
+
+        # 2. Увеличиваем общий счетчик товаров
+        Category.product_count += 1  # При добавлении одного товара +1
+
+    @property
+    # Декоратор. Он превращает обычный метод в свойство (property).
+    def products(self):  # Объявление метода. Имя метода - products.
+        """Возвращает строку со всеми товарами категории"""
+        result = ""
+        # Создаем пустую строку. В неё мы будем собирать все товары.
+        # Изначально строка пустая, потому что товаров пока нет.
+        for product in self.__products:  # Перебираем все товары в приватном списке __products.
+            # Добавляем к результату строку с текущим товаром
+            result += f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.\n"
+        return result  # Возвращаем готовую строку со всеми товарами.
