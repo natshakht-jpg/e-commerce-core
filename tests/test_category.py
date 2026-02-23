@@ -1,6 +1,6 @@
 import pytest
 
-from src.category import Category
+from src.category import Category, CategoryIterator
 from src.product import Product
 
 
@@ -105,3 +105,30 @@ def test_products_getter_format():
     expected = "Футболка, 800 руб. Остаток: 10 шт.\nДжинсы, 2500 руб. Остаток: 5 шт.\n"
 
     assert result == expected
+
+
+def test_category_str():
+    """Тест строкового представления категории"""
+    p1 = Product("Футболка", "Хлопок", 800, 10)
+    p2 = Product("Джинсы", "Синие", 2500, 5)
+    category = Category("Одежда", "Разная одежда", [p1, p2])
+
+    expected = "Одежда, количество продуктов: 15 шт."
+    assert str(category) == expected
+
+
+def test_category_iterator():
+    """Тест итератора для перебора товаров категории"""
+    p1 = Product("Футболка", "Хлопок", 800, 10)
+    p2 = Product("Джинсы", "Синие", 2500, 5)
+    category = Category("Одежда", "Разная одежда", [p1, p2])
+
+    # Собираем все товары из итератора в список
+    products_from_iterator = []
+    for product in CategoryIterator(category):
+        products_from_iterator.append(product)
+
+    # Проверяем, что вернулись все товары
+    assert len(products_from_iterator) == 2
+    assert products_from_iterator[0].name == "Футболка"
+    assert products_from_iterator[1].name == "Джинсы"
