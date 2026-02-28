@@ -1,7 +1,7 @@
 import pytest
 
 from src.category import Category, CategoryIterator
-from src.product import Product
+from src.product import Product, Smartphone
 
 
 def test_category_initialization():
@@ -132,3 +132,22 @@ def test_category_iterator():
     assert len(products_from_iterator) == 2
     assert products_from_iterator[0].name == "Футболка"
     assert products_from_iterator[1].name == "Джинсы"
+
+
+def test_add_product_with_inheritance():
+    """Тест добавления объектов-наследников в категорию"""
+    category = Category("Тест", "Описание")
+    smartphone = Smartphone("Тест", "Описание", 1000, 5, "95.5", "Модель", 256, "Черный")
+
+    category.add_product(smartphone)
+
+    # Проверяем, что продукт добавился
+    assert str(smartphone) in category.products
+
+
+def test_add_non_product():
+    """Тест добавления объекта не-продукта (должна быть ошибка)"""
+    category = Category("Тест", "Описание")
+
+    with pytest.raises(TypeError):
+        category.add_product("Это строка, а не продукт")

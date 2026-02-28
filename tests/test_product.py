@@ -1,4 +1,6 @@
-from src.product import Product
+import pytest
+
+from src.product import LawnGrass, Product, Smartphone
 
 
 def test_product_initialization():
@@ -118,3 +120,22 @@ def test_product_add():
 
     result = p1 + p2
     assert result == 8000 + 12500 == 20500
+
+
+def test_add_same_classes():
+    """Тест сложения объектов одного класса"""
+    p1 = Smartphone("Тест", "Описание", 1000, 5, "95.5", "Модель", 256, "Черный")
+    p2 = Smartphone("Тест2", "Описание", 2000, 3, "98.2", "Модель2", 512, "Белый")
+
+    result = p1 + p2
+    expected = 1000 * 5 + 2000 * 3
+    assert result == expected
+
+
+def test_add_different_classes():
+    """Тест сложения объектов разных классов (должна быть ошибка)"""
+    p1 = Smartphone("Тест", "Описание", 1000, 5, "95.5", "Модель", 256, "Черный")
+    p2 = LawnGrass("Трава", "Описание", 500, 10, "Россия", "7 дней", "Зеленый")
+
+    with pytest.raises(TypeError):
+        p1 + p2
