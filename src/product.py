@@ -74,4 +74,32 @@ class Product:
 
     def __add__(self, other):
         """Возвращает сумму стоимости всех товаров на складе для двух продуктов"""
+        if type(self) is not type(other):  # проверка на одинаковый класс
+            raise TypeError("Нельзя складывать товары разных классов")
+
         return self.__price * self.quantity + other.__price * other.quantity
+
+
+class Smartphone(Product):
+    """Создаем класс «Смартфон» (Smartphone) наследник класса Product"""
+    def __init__(self, name, description, price, quantity, efficiency, model, memory, color):
+        # Вызываем родительский конструктор для общих атрибутов
+        super().__init__(name, description, price, quantity)
+
+        # Добавляем свои новые атрибуты
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Создаем класс «Трава газонная» (LawnGrass) наследник класса Product"""
+    def __init__(self, name, description, price, quantity, country, germination_period, color):
+        # Вызываем родительский конструктор для общих атрибутов
+        super().__init__(name, description, price, quantity)
+
+        # Добавляем свои новые атрибуты
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color
