@@ -1,8 +1,9 @@
+from src.base_container import BaseContainer
 from src.product import Product
 
 
-# Создаем класс Category
-class Category:
+# Создаем класс Category (наследует BaseContainer)
+class Category(BaseContainer):
     # Атрибуты класса (общие для всех объектов)
     category_count = 0  # СЧЁТЧИК: сколько всего создано категорий (в __init__)
     product_count = 0  # СЧЁТЧИК: сколько всего товаров во всех категориях (в add_product)
@@ -50,6 +51,26 @@ class Category:
 
         # Увеличиваем общий счетчик товаров
         Category.product_count += 1  # При добавлении одного товара +1
+
+    def total_quantity(self):
+        """
+        Возвращает общее количество всех товаров в категории.
+        Суммирует quantity каждого продукта в приватном списке __products.
+        """
+        total = 0
+        for product in self.__products:
+            total += product.quantity
+        return total
+
+    def total_price(self):
+        """
+        Возвращает общую стоимость всех товаров в категории.
+        Суммирует price * quantity для каждого продукта.
+        """
+        total = 0
+        for product in self.__products:
+            total += product.price * product.quantity
+        return total
 
     @property
     # Декоратор. Он превращает обычный метод в свойство (property).

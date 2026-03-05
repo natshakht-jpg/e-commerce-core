@@ -151,3 +151,22 @@ def test_add_non_product():
 
     with pytest.raises(TypeError):
         category.add_product("Это строка, а не продукт")
+
+
+def test_category_total_quantity():
+    """Тест подсчёта общего количества товаров в категории."""
+    p1 = Product("Футболка", "Хлопок", 800, 10)
+    p2 = Product("Джинсы", "Синие", 2500, 5)
+    category = Category("Одежда", "Разная одежда", [p1, p2])
+
+    assert category.total_quantity() == 15
+
+
+def test_category_total_price():
+    """Тест подсчёта общей стоимости товаров в категории."""
+    p1 = Product("Футболка", "Хлопок", 800, 10)
+    p2 = Product("Джинсы", "Синие", 2500, 5)
+    category = Category("Одежда", "Разная одежда", [p1, p2])
+
+    expected = 800 * 10 + 2500 * 5  # 8000 + 12500 = 20500
+    assert category.total_price() == expected

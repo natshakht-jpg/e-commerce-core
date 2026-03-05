@@ -139,3 +139,27 @@ def test_add_different_classes():
 
     with pytest.raises(TypeError):
         p1 + p2
+
+
+def test_product_print_mixin(capsys):
+    """Тест: при создании Product печатается repr."""
+    product = Product("Тест", "Описание", 1000.0, 5)
+    captured = capsys.readouterr()
+    assert "Product(Тест, Описание, 1000.0, 5)" in captured.out
+    assert product is not None
+
+
+def test_smartphone_print_mixin(capsys):
+    """Тест: при создании Smartphone печатается repr."""
+    phone = Smartphone("S10", "Хороший", 50000.0, 3, "95.5", "S10", 128, "Черный")
+    captured = capsys.readouterr()
+    assert "Smartphone(S10, Хороший, 50000.0, 3)" in captured.out
+    assert phone is not None
+
+
+def test_lawn_grass_print_mixin(capsys):
+    """Тест: при создании LawnGrass печатается repr."""
+    grass = LawnGrass("Трава", "Зеленая", 500.0, 10, "Россия", "7 дней", "Зеленый")
+    captured = capsys.readouterr()
+    assert "LawnGrass(Трава, Зеленая, 500.0, 10)" in captured.out
+    assert grass is not None
