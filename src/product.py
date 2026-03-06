@@ -1,5 +1,9 @@
-# Создаем класс Product
-class Product:
+from src.base_product import BaseProduct
+from src.mixin import ProductPrintMixin
+
+
+# Основной класс товара (с миксин и абстрактной базой)
+class Product(ProductPrintMixin, BaseProduct):
     # Определяем поля (свойства) класса
     name: str
     description: str
@@ -11,6 +15,7 @@ class Product:
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()  # вызов родителя (миксина)
 
     @classmethod  # Декоратор. Превращает обычный метод в класс-метод.
     def new_product(cls, product_data, products_list=None):
