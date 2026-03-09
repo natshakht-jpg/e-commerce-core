@@ -170,3 +170,21 @@ def test_category_total_price():
 
     expected = 800 * 10 + 2500 * 5  # 8000 + 12500 = 20500
     assert category.total_price() == expected
+
+
+def test_middle_price_with_products():
+    """Метод возвращает правильную среднюю цену, когда есть товары"""
+    p1 = Product("Футболка", "Хлопок", 800, 10)
+    p2 = Product("Джинсы", "Синие", 2500, 5)
+    category = Category("Одежда", "Разная одежда", [p1, p2])
+
+    assert category.middle_price() == 1650
+
+
+def test_middle_price_empty_category():
+    """Метод возвращает 0, если категория пуста"""
+    # Создаём категорию без товаров
+    category = Category("Пустая категория", "Описание")
+
+    # Проверяем, что метод возвращает 0
+    assert category.middle_price() == 0

@@ -1,5 +1,5 @@
 from src.base_container import BaseContainer
-from src.product import Product
+from src.product import Product, ZeroQuantityError
 
 
 # Создаем класс Category (наследует BaseContainer)
@@ -42,15 +42,28 @@ class Category(BaseContainer):
         Метод для добавления одного товара в категорию
         product - объект класса Product
         """
-        # Проверяем, что product является экземпляром Product или его наследника
-        if not isinstance(product, Product):
-            raise TypeError("Можно добавлять только объекты класса Product или его наследников")
+        try:
+            # Проверяем, что product является экземпляром Product или его наследника
+            if not isinstance(product, Product):
+                raise TypeError("Можно добавлять только объекты класса Product или его наследников")
 
-        # Добавляем товар в приватный список
-        self.__products.append(product)  # Добавляем в конец списка
+            # Добавляем товар в приватный список
+            self.__products.append(product)
 
-        # Увеличиваем общий счетчик товаров
-        Category.product_count += 1  # При добавлении одного товара +1
+            # Увеличиваем общий счетчик товаров
+            Category.product_count += 1
+
+        except ZeroQuantityError as e:  # pragma: no cover
+            # Если у товара нулевое количество (исключение из __init__)
+            print(f"Ошибка: {e}")  # pragma: no cover
+
+        else:
+            # Если всё хорошо (ошибок не было)
+            print("Товар успешно добавлен")
+
+        finally:
+            # Выполняется всегда
+            print("Обработка добавления товара завершена")
 
     def total_quantity(self):
         """
@@ -90,6 +103,24 @@ class Category(BaseContainer):
         for product in self.__products:
             total += product.quantity
         return f"{self.name}, количество продуктов: {total} шт."
+
+    def middle_price(self):
+        """
+        Рассчитывает среднюю цену всех товаров в категории.
+        Если категория пуста, возвращает 0 (чтобы избежать ошибки деления на ноль).
+        """
+        try:
+            # Считаем сумму цен всех товаров
+            total = 0
+            for product in self.__products:
+                total += product.price
+
+            # Делим на количество товаров
+            return total / len(self.__products)
+
+        except ZeroDivisionError:
+            # Если в категории нет товаров (деление на 0) — возвращаем 0
+            return 0
 
 
 class CategoryIterator:

@@ -2,6 +2,11 @@ from src.base_product import BaseProduct
 from src.mixin import ProductPrintMixin
 
 
+class ZeroQuantityError(Exception):
+    """Исключение при попытке создать товар с нулевым количеством"""
+    pass
+
+
 # Основной класс товара (с миксин и абстрактной базой)
 class Product(ProductPrintMixin, BaseProduct):
     # Определяем поля (свойства) класса
@@ -11,6 +16,10 @@ class Product(ProductPrintMixin, BaseProduct):
 
     # Создаем конструктор класса, который принимает данные для создания объекта
     def __init__(self, name, description, price, quantity):
+        # Проверка на нулевое количество
+        if quantity <= 0:
+            raise ValueError("Товар с нулевым количеством не может быть добавлен")
+
         self.name = name
         self.description = description
         self.__price = price

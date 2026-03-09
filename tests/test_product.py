@@ -163,3 +163,15 @@ def test_lawn_grass_print_mixin(capsys):
     captured = capsys.readouterr()
     assert "LawnGrass(Трава, Зеленая, 500.0, 10)" in captured.out
     assert grass is not None
+
+
+def test_product_zero_quantity():
+    """Тест: создание товара с нулевым количеством вызывает ValueError"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Тест", "Описание", 100.0, 0)
+
+
+def test_product_negative_quantity():
+    """Тест: создание товара с отрицательным количеством вызывает ValueError"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Тест", "Описание", 100.0, -5)
