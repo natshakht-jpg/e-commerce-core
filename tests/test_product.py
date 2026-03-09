@@ -1,6 +1,6 @@
 import pytest
 
-from src.product import LawnGrass, Product, Smartphone, ZeroQuantityError
+from src.product import LawnGrass, Product, Smartphone
 
 
 def test_product_initialization():
@@ -167,11 +167,11 @@ def test_lawn_grass_print_mixin(capsys):
 
 def test_product_zero_quantity():
     """Тест: создание товара с нулевым количеством вызывает ValueError"""
-    with pytest.raises(ZeroQuantityError, match="Товар с нулевым количеством не может быть добавлен"):
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
         Product("Тест", "Описание", 100.0, 0)
 
 
 def test_product_negative_quantity():
     """Тест: создание товара с отрицательным количеством вызывает ValueError"""
-    with pytest.raises(ZeroQuantityError, match="Товар с нулевым количеством не может быть добавлен"):
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
         Product("Тест", "Описание", 100.0, -5)
